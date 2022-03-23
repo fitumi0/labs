@@ -34,16 +34,15 @@ public:
 		if (adds) {
 			node* p = new(adds) node(arr, size, f);
 			node* temp = START;
+			if (pos < 0) { pos = 0; }
 			if (START == NULL) {
 				START = p;
 				p->next = p;
 				p->prev = p;
 			}
 			else {
-				if (pos < 0) { pos = 0; }
-
 				int n = 0;
-				while (n != abs(pos)%COUNT) {
+				while (n != pos % COUNT) {
 					temp = temp->next;
 					n++;
 				}
@@ -63,13 +62,10 @@ public:
 			if (pos < 0) { pos = 0; }
 			else if (pos > COUNT - 1 && COUNT != 1) { pos = COUNT - 1; }
 			int n = 0;
-			while (n != pos) {
-				if (pos <= 0) { break; }
+			while (n != pos % COUNT) {
 				temp = temp->next;
 				n++;
 			}
-			
-
 			if (START->next != START) { 
 				temp->prev->next = temp->next;
 				temp->next->prev = temp->prev;
@@ -121,10 +117,11 @@ public:
 	size_t size(void) { return COUNT; }
 	void check_memory(int pos) {
 		node* temp;
+		if (pos < 0) { pos = 0; }
 		if (START != NULL && pos < COUNT) {
 			temp = START;
 			int n = 0;
-			while (n != abs(pos)%COUNT) {
+			while (n != pos % COUNT) {
 				if (pos == 0) { break; }
 				temp = temp->next;
 				n++;
@@ -215,7 +212,8 @@ int main()
 				}
 				int pos;
 				for (;;) {
-					std::cout << "If position > count of elements: a cyclic shift will be performed" << std::endl;
+					std::cout << "If position > count of elements: a cyclic shift will be performed!" << std::endl;
+					std::cout << "If position < 0 -> pos will be == 0!" << std::endl;
 					std::cout << "Enter position: ";
 					std::cin >> pos;
 					if (std::cin.good() || pos >= 0) {
@@ -289,6 +287,5 @@ int main()
 		} 
 		system("pause");
 	}
-
 	return 0;
 }
