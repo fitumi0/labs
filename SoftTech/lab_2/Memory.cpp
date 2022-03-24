@@ -1,10 +1,5 @@
 ﻿#define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
-#include <crtdbg.h> 
-_CrtMemState s1;
-_CrtMemState s2;
-_CrtMemState s3;
-
 
 #include <iostream>
 #include <iterator>
@@ -18,6 +13,7 @@ class list {
 		int* arr;
 		size_t arr_size;
 		double f;
+		double* fptr;
 		node* next;
 		node* prev;
 		node(int*& arr, size_t& size, double& y) : next(NULL), prev(NULL), arr(arr), arr_size(size), f(y) {}
@@ -31,8 +27,10 @@ public:
 public:
 	void insert(size_t size, int* arr, double f, int pos) {
 		node* adds = new node(arr, size, f);
+		
 		if (adds) {
 			node* p = new(adds) node(arr, size, f);
+			p->fptr = &(p->f);
 			node* temp = START;
 			if (pos < 0) { pos = 0; }
 			if (START == NULL) {
@@ -165,6 +163,10 @@ int menu() {
 
 int main()
 {
+#define __CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
 	list L;
 	for (;;) {
 		system("cls");
@@ -225,6 +227,7 @@ int main()
 					}
 				}
 				L.insert(size, arr, f, pos);
+				std::cout<< " " << std::endl;
 			}
 				break;
 			case 2:
@@ -263,6 +266,9 @@ int main()
 			case 6:
 				L.clear();
 				system("cls");
+				
+				_CrtDumpMemoryLeaks();
+
 				exit(0);
 				break;
 			case 11:
@@ -287,5 +293,7 @@ int main()
 		} 
 		system("pause");
 	}
+	_CrtDumpMemoryLeaks();
+	std::cout<<'\n';
 	return 0;
 }
