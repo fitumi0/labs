@@ -1,5 +1,0 @@
-﻿  Memory.cpp
-W:\cppProj\Memory\Memory.cpp(123,1): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
-W:\cppProj\Memory\Memory.cpp(186,1): warning C4311: приведение типов: усечение указателя из "list::node *" в "int"
-W:\cppProj\Memory\Memory.cpp(186,1): warning C4302: приведение типов: усечение из "list::node *" к "int"
-  Memory.vcxproj -> W:\cppProj\Memory\x64\Debug\Memory.exe
