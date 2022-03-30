@@ -1,12 +1,12 @@
 ﻿#define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
-
 #include <iostream>
 #include <iterator>
 #include <sstream>
 #include <stdio.h>
 #include <stdlib.h>
 
+// TODO: 123
 
 class list {
 	struct node {
@@ -27,7 +27,7 @@ public:
 public:
 	void insert(size_t size, int* arr, double f, int pos) {
 		node* adds = new node(arr, size, f);
-		
+		adds->fptr = &(adds->f);
 		if (adds) {
 			node* p = new(adds) node(arr, size, f);
 			p->fptr = &(p->f);
@@ -64,15 +64,15 @@ public:
 				temp = temp->next;
 				n++;
 			}
-			if (START->next != START) { 
+			if (START->next != START) {
 				temp->prev->next = temp->next;
 				temp->next->prev = temp->prev;
-				START = START->next; 
+				START = START->next;
 				delete temp;
 			}
-			else { 
+			else {
 				delete temp;
-				START = NULL; 
+				START = NULL;
 			}
 			COUNT--;
 			return true;
@@ -83,7 +83,7 @@ public:
 		}
 	}
 
-	
+
 	void print(void)
 	{
 		node* temp;
@@ -93,7 +93,7 @@ public:
 		int x = 0;
 		while (x != COUNT)
 		{
-			std::cout << x <<": [ ";
+			std::cout << x << ": [ ";
 			for (int i = 0; i < temp->arr_size; i++) {
 				std::cout << temp->arr[i] << " ";
 			}
@@ -112,7 +112,7 @@ public:
 	}
 
 	bool empty(void) { return START == NULL; }
-	size_t size(void) { return COUNT; }
+	int size(void) { return COUNT; }
 	void check_memory(int pos) {
 		node* temp;
 		if (pos < 0) { pos = 0; }
@@ -172,112 +172,27 @@ int main()
 		system("cls");
 		int n = menu();
 		switch (n) {
-			case 1:
-			{
-				size_t size;
-				double f;
-				for (;;) {
-					std::cout << "Enter size of array [1; 10]: ";
-					std::cin >> size;
-					if (std::cin.good() && (size <= 10 && size > 0)) {
-						break;
-					}
-					else {
-						std::cin.clear();
-						std::cin.ignore(INT_MAX, '\n');
-					}
-				}
-				int* arr = new int[size];
-				for (int i = 0; i < size; i++) {
-					for (;;) {
-						std::cout << "Enter " << "arr[" << i << "] elem: ";
-						std::cin >> arr[i];
-						if (std::cin.good() && arr[i] > INT_MIN && arr[i] < INT_MAX) {
-							break;
-						}
-						else {
-							std::cin.clear();
-							std::cin.ignore(INT_MAX, '\n');
-						}
-					}
-				}
-				for (;;) {
-					std::cout << "Enter double value: ";
-					std::cin >> f;
-					if (std::cin.good()) {
-						break;
-					}
-					else {
-						std::cin.clear();
-						std::cin.ignore(INT_MAX, '\n');
-					}
-				}
-				int pos;
-				for (;;) {
-					std::cout << "If position > count of elements: a cyclic shift will be performed!" << std::endl;
-					std::cout << "If position < 0 -> pos will be == 0!" << std::endl;
-					std::cout << "Enter position: ";
-					std::cin >> pos;
-					if (std::cin.good() || pos >= 0) {
-						break;
-					}
-					else {
-						std::cin.clear();
-						std::cin.ignore(INT_MAX, '\n');
-					}
-				}
-				L.insert(size, arr, f, pos);
-				std::cout<< " " << std::endl;
-			}
-				break;
-			case 2:
-			{
-				int pos;
-				for (;;) {
-					std::cout << "Enter position: ";
-					std::cin >> pos;
-					if (std::cin.good() || pos >= 0) {
-						break;
-					}
-					else {
-						std::cin.clear();
-						std::cin.ignore(INT_MAX, '\n');
-					}
-				}
-				L.remove(pos);
-				std::cin.clear();
-				std::cin.ignore(INT_MAX, '\n');
-			}
-				break;
-			case 3:
-				if (L.empty()) {
-					std::cout << "List empty!" << std::endl;
+		case 1:
+		{
+			size_t size;
+			double f;
+			for (;;) {
+				std::cout << "Enter size of array [1; 10]: ";
+				std::cin >> size;
+				if (std::cin.good() && (size <= 10 && size > 0)) {
+					break;
 				}
 				else {
-					std::cout << "List contains " << L.size() << " elements!" << std::endl;
+					std::cin.clear();
+					std::cin.ignore(INT_MAX, '\n');
 				}
-				break;
-			case 4:
-				L.clear();
-				break;
-			case 5:
-				L.print();
-				break;
-			case 6:
-				L.clear();
-				system("cls");
-				
-				_CrtDumpMemoryLeaks();
-
-				exit(0);
-				break;
-			case 11:
-			{
-				int pos;
+			}
+			int* arr = new int[size];
+			for (int i = 0; i < size; i++) {
 				for (;;) {
-					std::cout << "Enter position: ";
-					std::cin >> pos;
-					if (std::cin.good() || pos >= 0) {
+					std::cout << "Enter " << "arr[" << i << "] elem: ";
+					std::cin >> arr[i];
+					if (std::cin.good() && arr[i] > INT_MIN && arr[i] < INT_MAX) {
 						break;
 					}
 					else {
@@ -285,15 +200,99 @@ int main()
 						std::cin.ignore(INT_MAX, '\n');
 					}
 				}
-				L.check_memory(pos);
+			}
+			for (;;) {
+				std::cout << "Enter double value: ";
+				std::cin >> f;
+				if (std::cin.good()) {
+					break;
+				}
+				else {
+					std::cin.clear();
+					std::cin.ignore(INT_MAX, '\n');
+				}
+			}
+			int pos;
+			for (;;) {
+				std::cout << "If position > count of elements: a cyclic shift will be performed!" << std::endl;
+				std::cout << "If position < 0 -> pos will be == 0!" << std::endl;
+				std::cout << "Enter position: ";
+				std::cin >> pos;
+				if (std::cin.good() || pos >= 0) {
+					break;
+				}
+				else {
+					std::cin.clear();
+					std::cin.ignore(INT_MAX, '\n');
+				}
+			}
+			L.insert(size, arr, f, pos);
+			std::cout << " " << std::endl;
+		}
+		break;
+		case 2:
+		{
+			int pos;
+			for (;;) {
+				std::cout << "Enter position: ";
+				std::cin >> pos;
+				if (std::cin.good() || pos >= 0) {
+					break;
+				}
+				else {
+					std::cin.clear();
+					std::cin.ignore(INT_MAX, '\n');
+				}
+			}
+			L.remove(pos);
+			std::cin.clear();
+			std::cin.ignore(INT_MAX, '\n');
+		}
+		break;
+		case 3:
+			if (L.empty()) {
+				std::cout << "List empty!" << std::endl;
+			}
+			else {
+				std::cout << "List contains " << L.size() << " elements!" << std::endl;
 			}
 			break;
+		case 4:
+			L.clear();
+			break;
+		case 5:
+			L.print();
+			break;
+		case 6:
+			L.clear();
+			system("cls");
+			_CrtDumpMemoryLeaks();
+			std::cout << '\n';
+			exit(0);
+			break;
+		case 11:
+		{
+			int pos;
+			for (;;) {
+				std::cout << "Enter position: ";
+				std::cin >> pos;
+				if (std::cin.good() || pos >= 0) {
+					break;
+				}
+				else {
+					std::cin.clear();
+					std::cin.ignore(INT_MAX, '\n');
+				}
+			}
+			L.check_memory(pos);
+		}
+		break;
 		default:
 			break;
-		} 
+		}
 		system("pause");
 	}
 	_CrtDumpMemoryLeaks();
-	std::cout<<'\n';
+	std::cout << '\n';
 	return 0;
 }
