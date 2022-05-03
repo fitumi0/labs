@@ -49,12 +49,6 @@ LPCTSTR CLASS_NAME = TEXT("Window Class");
 LPCTSTR CLASS_NAME1 = TEXT("Window1 Class");
 LPCTSTR CLASS_NAME2 = TEXT("Window2 Class");
 
-void clear_buff(static wchar_t TBuffer[]) {
-    for (int i = 0; i < 36; i++) {
-        TBuffer[i] = NULL;
-        }
-}
-
 void ValueError(int ErrorCode) {
     switch (ErrorCode) {
     case 1: 
@@ -65,20 +59,6 @@ void ValueError(int ErrorCode) {
 
     }
     clear_buff(TBuffer);
-}
-
-bool DetPoL(double x_1, double y_1, double x_2, double y_2, double x, double y)
-{
-    double k, c;
-
-    if (x_2 == x_1) {
-        return (x == x_1 && y >= min(y_1, y_2) && x_1 <= max(y_1, y_2));
-    }
-
-    k = (y_2 - y_1) / (x_2 - x_1);
-    c = y_1 - k * x_1;
-
-    return y == x * k + c;
 }
 
 
@@ -97,23 +77,21 @@ void CreateMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, in
         return;
     }
 
-    // Create the window.
 
     hwnd = CreateWindow(
-        CLASS_NAME,                     // Window class
-        L"3 Lab WinAPI",                // Window text
-        WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,            // Window style
+        CLASS_NAME,                     
+        L"3 Lab WinAPI",               
+        WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,            
 
-        // Size and position
         CW_USEDEFAULT,
         CW_USEDEFAULT,
         500,
         165,
 
-        NULL,       // Parent window    
-        NULL,       // Menu
-        hInstance,  // Instance handle
-        NULL        // Additional application data
+        NULL,          
+        NULL,       
+        hInstance,  
+        NULL        
     );
 
     HWND Button1 = CreateWindowW(
@@ -177,11 +155,10 @@ void CreateFirstChild(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLi
 
     LinePoints = CreateWindowEx(
         1,
-        CLASS_NAME1,                     // Window class
-        L"3 Lab WinAPI",                // Window text
-        WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,            // Window style
+        CLASS_NAME1,                     
+        L"3 Lab WinAPI",               
+        WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,            
 
-        // Size and position
         CW_USEDEFAULT,
         CW_USEDEFAULT,
         500,
@@ -394,11 +371,10 @@ void CreateSecChild(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
     InCircle = CreateWindowEx(
         1,
-        CLASS_NAME2,                     // Window class
-        L"In[Out]side",                // Window text
-        WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,            // Window style
+        CLASS_NAME2,                     
+        L"In[Out]side",                
+        WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,            
 
-        // Size and position
         CW_USEDEFAULT,
         CW_USEDEFAULT,
         235,
@@ -525,7 +501,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         return 0;
     }
 
-    // Run the message loop.
     MSG msg = { };
     while (GetMessage(&msg, NULL, 0, 0))
     {
@@ -686,10 +661,7 @@ LRESULT CALLBACK FirstSubWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 
 LRESULT CALLBACK SecSubWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-        /// 
-        /// Условие попадания точки в круг.
-        /// if ((x - x0)^2 + (y - y0)^2 <= R^2){ return true; }
-        /// 
+
     switch (uMsg)
     {
         case WM_CLOSE: {
@@ -726,7 +698,6 @@ LRESULT CALLBACK SecSubWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
                 MessageBox(hwnd, L"R:int > 0, X,Y: float\nx0,y0 = 0 (Center xOy).\n3 Digits max.", L"Info", 0);
             }
             return 0;
-
         }
         case WM_DESTROY:
             PostQuitMessage(0);
